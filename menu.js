@@ -63,11 +63,11 @@ class menuMaker {
 //the below class controls the dom and renders or shows the data held in the API
 class DOMManager {
     static menus;
-
+// gets all menus
     static getMenus(){
         menuMaker.getMenus().then(menus => this.show(menus));
     }
-
+//creates a new menu using method in the menuMaker class
     static createMenu(name) {
         menuMaker.createMenu(new Menu(name))
         .then(() => {
@@ -75,7 +75,7 @@ class DOMManager {
         })
         .then((menus) => this.show(menus));
     }
-
+//deletes a selected menu with the id assigned to the menus button
     static deleteMenu(id){
         menuMaker.deleteMenu(id)
         .then(() => {
@@ -83,11 +83,11 @@ class DOMManager {
         })
         .then((menus) => this.show(menus));
     }
-
+//creates a new menu item inside the selected menu
     static createItem(id){
         for(let menu of this.menus) {
             if(menu.id == id){
-                menu.items.push(new Item($(`#${menu.id}-item-name`).val(), $(`#${menu.id}-item-cost`).val(), Math.floor(Math.random() * 1000)));
+                menu.items.push(new Item($(`#${menu.id}-item-name`).val(), $(`#${menu.id}-item-cost`).val(), Math.floor(Math.random() * 1000)));//assigns name cost and a random id value to the menu item
                 menuMaker.updateMenu(menu)
                     .then(() => {
                         return menuMaker.getMenus();
@@ -97,7 +97,7 @@ class DOMManager {
             }
     
     }
-
+//deletes an item when clicking the X button under the menu item
     static removeItem(menuId, itemId) {
         console.log(menuId, itemId);
         for(let menu of this.menus){
@@ -160,5 +160,5 @@ $('#create-menu').click(() => {
     DOMManager.createMenu($('#user-input').val());
     $('#user-input').val('');
 });
-
+//runs the origional JS to pull data from the API using the menuMaker API.
 DOMManager.getMenus();
